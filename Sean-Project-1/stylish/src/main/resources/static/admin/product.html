@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Product</title>
+    <style>
+        form {
+            max-width: 600px;
+            margin: auto;
+        }
+
+        label, input, textarea, button {
+            display: block;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        input[type="file"] {
+            width: auto;
+        }
+
+        .variant, .image-input {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+    </style>
+    <script>
+        function addVariant() {
+            const variantContainer = document.getElementById('variantContainer');
+            const variantDiv = document.createElement('div');
+            variantDiv.className = 'variant';
+            variantDiv.innerHTML = `
+                <label for="size">size</label>
+                <input type="text" name="size" required>
+                <label for="color_name">color_name</label>
+                <input type="text" name="name" required>
+                <label for="color_code">color_code</label>
+                <input type="text" name="code" required>
+                <label for="stock">stock</label>
+                <input type="number" name="stock" required>
+            `;
+            variantContainer.appendChild(variantDiv);
+        }
+
+        function addImageInput() {
+            const imagesContainer = document.getElementById('imagesContainer');
+            const imageDiv = document.createElement('div');
+            imageDiv.className = 'image-input';
+            imageDiv.innerHTML = `
+                <label for="images">images</label>
+                <input type="file" name="images" required>
+            `;
+            imagesContainer.appendChild(imageDiv);
+        }
+    </script>
+</head>
+<body>
+<form action="/addProduct" method="post" enctype="multipart/form-data">
+    <h1>Create Product</h1>
+
+    <div id="message" style="color: green;"></div>
+    <div id="error" style="color: red;"></div>
+
+    <label for="category">category</label>
+    <input type="text" id="category" name="category" required>
+
+    <label for="title">title</label>
+    <input type="text" id="title" name="title" required>
+
+    <label for="description">description</label>
+    <textarea id="description" name="description" required></textarea>
+
+    <label for="price">price</label>
+    <input type="number" id="price" name="price" required>
+
+    <label for="texture">texture</label>
+    <input type="text" id="texture" name="texture" required>
+
+    <label for="wash">wash</label>
+    <input type="text" id="wash" name="wash" required>
+
+    <label for="place">place</label>
+    <input type="text" id="place" name="place" required>
+
+    <label for="note">note</label>
+    <textarea id="note" name="note" required></textarea>
+
+    <label for="story">story</label>
+    <textarea id="story" name="story" required></textarea>
+
+    <div id="variantContainer">
+        <h2>Variants</h2>
+        <div class="variant">
+            <label for="size">size</label>
+            <input type="text" id="size" name="size" required>
+
+            <label for="color_name">color_name</label>
+            <input type="text" id="color_name" name="name" required>
+
+            <label for="color_code">color_code</label>
+            <input type="text" id="color_code" name="code" required>
+
+            <label for="stock">stock</label>
+            <input type="number" id="stock" name="stock" required>
+        </div>
+    </div>
+    <button type="button" onclick="addVariant()">add variant</button>
+
+    <label for="main_image">main_image</label>
+    <input type="file" id="main_image" name="mainImage" required>
+
+    <div id="imagesContainer">
+        <label for="images">images</label>
+        <input type="file" id="images" name="images" required multiple>
+    </div>
+    <button type="button" onclick="addImageInput()">add images</button>
+
+    <button type="submit">submit</button>
+</form>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        const message = urlParams.get('message');
+        const error = urlParams.get('error');
+
+        if (message) {
+            document.getElementById('message').innerText = message;
+        }
+
+        if (error) {
+            document.getElementById('error').innerText = error;
+        }
+    });
+</script>
+</body>
+</html>

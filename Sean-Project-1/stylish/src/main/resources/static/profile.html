@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>profile</title>
+    <link rel="stylesheet" href="assets/css/profile.css">
+</head>
+<body>
+<header>
+    <div class="header_container d-flex">
+        <div class="logo-catagory d-flex">
+            <div class="logo">
+                <a href="index.html"><img src="assets/images/logo.png" alt="Logo"></a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html?category=women">女裝</a></li>
+                    <li>|</li>
+                    <li><a href="index.html?category=men">男裝</a></li>
+                    <li>|</li>
+                    <li><a href="index.html?category=accessories">配件</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="search-cart-user">
+            <div class="search-container">
+                <input type="text" placeholder="搜尋">
+                <button type="submit">
+                    <img src="assets/images/search.png" alt="Search">
+                </button>
+            </div>
+            <div class="cart-icon-container">
+                <img src="assets/images/cart.png" alt="Cart">
+                <span class="cart-count">1</span>
+            </div>
+            <div class="member-icon-container">
+                <a href="#">
+                    <img src="assets/images/member.png" alt="User">
+                </a>
+            </div>
+        </div>
+    </div>
+</header>
+<div class="content">
+    <div id="form-container">
+        <h1>Sign In</h1>
+        <p class ="welcome">Welcome back.
+        <hr>
+        <form id="auth-form">
+            <label for="email">信箱 :</label>
+            <input type="email" id="email" name="email" placeholder="email" required>
+            <label for="password">密碼 :</label>
+            <input type="password" id="password" name="password" placeholder="password" required>
+            <button type="submit">登入</button>
+            <button type="button" id="toggle-button">註冊</button>
+        </form>
+    </div>
+</div>
+<footer class="footer">
+    <nav>
+        <ul>
+            <li><a href="#">關於 STYLiSH</a></li>
+            <li>|</li>
+            <li><a href="#">服務條款</a></li>
+            <li>|</li>
+            <li><a href="#">隱私政策</a></li>
+            <li>|</li>
+            <li><a href="#">聯絡我們</a></li>
+            <li>|</li>
+            <li><a href="#">FAQ</a></li>
+        </ul>
+    </nav>
+    <div class="social-icons">
+        <a href="#"><img src="assets/images/line.png" alt="Line"></a>
+        <a href="#"><img src="assets/images/twitter.png" alt="Twitter"></a>
+        <a href="#"><img src="assets/images/facebook.png" alt="Facebook"></a>
+    </div>
+    <div class="copyright">
+        © 2024, All rights reserved.
+    </div>
+</footer>
+<script src="assets/js/profile.js"></script>
+</body>
+</html>

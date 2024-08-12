@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            list-style: none;
+        }
+
+        html {
+            font-size: 10px;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        body {
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position: center;
+            background-size: cover;
+        }
+
+        .container {
+            width: 500px;
+            padding: 40px 50px;
+            border-radius: 5px;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+        }
+
+        h1 {
+            margin-bottom: 5px;
+            text-align: center;
+            font-size: 4.5rem;
+            font-weight: 800;
+            color: white;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0;
+            text-align: left;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        input {
+            width: 100%;
+            height: 40px;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+
+    </style>
+</head>
+<body>
+<h1>Login</h1>
+<div class="container">
+    <form action="/login" method="post">
+        <label for="email">信箱 :</label>
+        <input type="email" id="email" name="email" placeholder="Email" required>
+        <label for="password">密碼 :</label>
+        <input type="password" id="password" name="password" placeholder="Password" required>
+        <button type="submit">登入</button>
+        <button type="button" onclick="window.location.href='/register'">註冊</button>
+        <div id="status"></div>
+        <button type="button" onclick="fbLogin()">Facebook 登入</button>
+    </form>
+</div>
+<div id="fb-root"></div>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v20.0&appId=1005887034601416" nonce="l66ouBT2"></script>
+
+<script>
+    window.fbAsyncInit = function() {
+        FB.init({
+            appId      : '1005887034601416',
+            cookie     : true,
+            xfbml      : true,
+            version    : 'v20.0'
+        });
+
+        FB.AppEvents.logPageView();
+    };
+
+    function fbLogin() {
+        FB.login(function(response) {
+            if (response.authResponse) {
+                checkLoginState();
+            } else {
+                document.getElementById('status').innerHTML = 'User cancelled login or did not fully authorize.';
+            }
+        }, {scope: 'public_profile,email'});
+    }
+
+    function checkLoginState() {
+        FB.getLoginStatus(function(response) {
+            statusChangeCallback(response);
+        });
+    }
+
+    function statusChangeCallback(response) {
+        if (response.status === 'connected') {
+            console.log('Welcome! Fetching your information....');
+            FB.api('/me', { fields: 'name,email' }, function(response) {
+                console.log('Successful login for: ' + response.name);
+                document.getElementById('status').innerHTML =
+                    'Thanks for logging in, ' + response.name + '!';
+
+                var accessToken = FB.getAuthResponse().accessToken;
+                console.log("access_token :"+ accessToken);
+                sendTokenToBackend(accessToken);
+            });
+        } else {
+            document.getElementById('status').innerHTML = 'Please log into this app.';
+        }
+    }
+
+    function sendTokenToBackend(token) {
+        fetch('/api/1.0/user/signin', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                provider : "facebook",
+                access_token: token
+            })
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Backend response:', data);
+                // Handle the response from the backend
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+</script>
+
+</body>
+</html>
+
+
